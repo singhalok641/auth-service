@@ -20,7 +20,7 @@ public class UserSimpleController {
 
     @GetMapping("/users/me")
     public ResponseEntity<UserDto> me(Authentication authentication) {
-        Optional<User>  optionalUser = userRepo.findByEmail(authentication.getName());
+        Optional<User>  optionalUser = userRepo.findById(Long.valueOf(authentication.getName()));
         if (optionalUser.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

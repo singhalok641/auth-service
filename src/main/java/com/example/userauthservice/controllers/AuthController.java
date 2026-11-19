@@ -51,21 +51,4 @@ public class AuthController {
         response.setToken(token);
         return ResponseEntity.ok(response);
     }
-
-    @GetMapping("/auth/validateToken")
-    public ResponseEntity<UserDto> validateToken(@RequestHeader("Authorization") String header) {
-        if (!header.startsWith("Bearer ")) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-
-        try {
-            Claims claims = jwtService.parseToken(header.substring("Bearer ".length()));
-            UserDto dto = new UserDto();
-            dto.setEmail(claims.getSubject());
-            dto.setRole(Role.valueOf(claims.get("role", String.class)));
-            return ResponseEntity.ok(dto);
-        } catch (JwtException e) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-    }
 }
